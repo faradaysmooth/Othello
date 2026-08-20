@@ -274,6 +274,7 @@ button.ctl.primary{
       <div class="choices" id="ch-shape"></div>
     </div>
     <button class="ctl primary" id="opts-done">Done</button>
+    <div class="asksub" style="margin-top:2px">Build 4</div>
   </div>
 </div>
 
@@ -652,13 +653,18 @@ button.ctl.primary{
     function ready(){ badge.classList.add('show'); }
     if (!('serviceWorker' in navigator) || location.protocol === 'file:') return;
     try {
+      // If a newer version takes over, reload once so it is actually shown.
+      var hadController = !!navigator.serviceWorker.controller, refreshing = false;
+      navigator.serviceWorker.addEventListener('controllerchange', function(){
+        ready();
+        if (hadController && !refreshing){ refreshing = true; location.reload(); }
+      });
       navigator.serviceWorker.register('sw.js').then(function(){
         if (navigator.serviceWorker.controller) ready();
         navigator.serviceWorker.ready.then(function(){
           setTimeout(function(){ if (navigator.serviceWorker.controller) ready(); }, 400);
         });
       }).catch(function(){});
-      navigator.serviceWorker.addEventListener('controllerchange', ready);
     } catch (e) {}
   })();
 
