@@ -311,7 +311,7 @@ body.solo .card .norm2{order:-1}
       <div class="choices" id="ch-shape"></div>
     </div>
     <button class="ctl primary" id="opts-done">Done</button>
-    <div class="asksub" style="margin-top:2px">Build 5</div>
+    <div class="asksub" style="margin-top:2px">Build 5a</div>
   </div>
 </div>
 
@@ -718,11 +718,11 @@ var AI = (function(){
   }
   function cpuTurn(){ return mode.cpu && !state.over && !state.locked && state.turn === P2; }
 
-  // Think for 3–5 seconds (the real work takes a fraction of that), then fly the piece in.
+  // Think for 1.5–2.25 seconds (the real work takes a fraction of that), then fly the piece in.
   function maybeCpu(){
     if (!cpuTurn()) return;
     var job = ++cpu.job, result = null, waited = false;
-    var think = fast ? 0 : 3000 + Math.random() * 2000;
+    var think = fast ? 0 : 1500 + Math.random() * 750;
     function go(){
       if (job !== cpu.job || result === null || !waited) return;
       if (!state.moves[result]){                     // safety net: never stall
